@@ -1,6 +1,6 @@
 {
-  "name": "http-vue-axios",
-  "version": "0.0.14",
+  "name": "axios-vue-http",
+  "version": "0.0.2",
   "description": "基于axios二次封装",
   "main": "index.js",
   "scripts": {

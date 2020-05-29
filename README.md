@@ -1,15 +1,15 @@
-# http-vue-axios
+# axios-vue-http
 基于axios进行二次封装, 提供vue项目使用
 
 
 ## 安装
 
-> npm install -S http-vue-axios
+> npm install -S axios-vue-http
 
 ## 使用
 
 ```js
-import Http from 'http-vue-axios'
+import Http from 'axios-vue-http'
 Vue.use(Http);
 ```
 
@@ -17,7 +17,7 @@ Vue.use(Http);
 ## example
 
 ```js
-import Http from 'http-vue-axios'
+import Http from 'axios-vue-http'
 Vue.use(Http);
 
 const apiList = [
