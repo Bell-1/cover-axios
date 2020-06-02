@@ -6,7 +6,7 @@ const resolve = dir => path.resolve(__dirname, dir);
 module.exports = {
     entry: resolve('./index.js'),
     output: {
-        filename: 'httpVueAxios.js',
+        filename: 'httpVueAxios.min.js',
         path: resolve('./dist'),
     },
     module: {

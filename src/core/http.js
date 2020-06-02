@@ -97,10 +97,16 @@ class Http {
             try {
                 let res = await axios.request(reqConfig);
                 let { status, data } = res;
+                let cbRes = {
+                    res,
+                    data,
+                    resolve,
+                    reject,
+                }
                 if (status === 200) {
-                    this._success ? this._success(data, resolve, reject) : resolve(data);
+                    this._success ? this._success(cbRes) : resolve(res);
                 } else {
-                    this._fail ? this._fail(data, resolve, reject) : reject(data);
+                    this._fail ? this._fail(cbRes) : reject(res);
                 }
             } catch (error) {
                 reject(error);
