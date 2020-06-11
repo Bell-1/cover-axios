@@ -1,6 +1,6 @@
 # axios-vue-http
-基于axios进行二次封装, 提供vue项目使用
 
+基于axios进行二次封装, 提供vue项目使用
 
 ## 安装
 
@@ -27,19 +27,29 @@ const apiList = [
 	{apiName: 'putTest', method: 'PUT', url: 'api/test'},
 ]
 
-function success(data, resolve, reject) {
-	// 接口请求成功处理
-  // responent.status === 200
-  // data = responent.data
-  // 处理自定义处理
-  // 通过使用resolve()
-  // 不通过使用reject()
-  // 必须 调用 resolve | reject
+function success({res, resolve, reject}) {
+  // 接口请求成功处理 (status === 200)
+  // ...处理数据，
+  // example  res.data = {code: 200, data: {list: [], page: 1}, msg: '获取成功'}
+  let { data } = res;
+  if(data.code = 200){
+    resolve(data.data);
+  }
+
+  // example  res.data = {code: -10001, msg: '获取失败'}
+  let { data } = res;
+  if(data.code < 0){
+    app.$message.error(data.msg);
+    reject(new Error(data.msg));
+  }
+
+  // 使用resolve(数据)向下传递
+  // 使用reject(err)向下传递
 }
 
-function fail(data) {
-	// 接口请求失败处理
-  // responent.status !== 200
+function fail({res, reject}) {
+	// 接口请求失败处理(status !== 200)
+  // 使用reject(err)向下传递
 }
 
 

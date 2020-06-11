@@ -1,4 +1,5 @@
 import axios from 'axios'
+const CancelToken = axios.CancelToken;
 const origin = window.location.origin;
 const exportTypes = {
     xls: 'application/vnd.ms-excel,charset=UTF-8',
@@ -11,6 +12,7 @@ class Http {
         this._apiList = {} //接口列表
         this._success = undefined; //成功回调
         this._fail = undefined; //失败回调
+        this._requestList = [];
     }
 
     /**
@@ -41,6 +43,11 @@ class Http {
         if (typeof failCb !== 'function') return;
         this._fail = failCb;
     }
+
+    getRuquestList(){
+        return this._requestList;
+    }
+
 
     /**
      * 接口列表
@@ -92,6 +99,10 @@ class Http {
             data,
             params: api.method === 'GET' ? data : undefined,
             baseURL,
+            cancelToken: new CancelToken(c => {
+                // 接收一个 cancel 函数作为参数
+                this._requestList.push(c);
+            })
         }
         const promise = new Promise(async (resolve, reject) => {
             try {
