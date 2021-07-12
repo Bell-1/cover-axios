@@ -4,15 +4,22 @@ const resolve = dir => path.resolve(__dirname, dir);
 
 
 module.exports = {
-    entry: resolve('./index.js'),
+    entry: resolve('./index.ts'),
     output: {
-        filename: 'httpVueAxios.min.js',
-        path: resolve('./dist'),
+        filename: 'index.js',
+        path: resolve('./lib'),
+        chunkFilename: '[id].js',
+        libraryExport: 'default',
+        library: 'COVERAXIOS',
+        libraryTarget: 'commonjs2'
     },
+    mode: 'production',
     module: {
         rules: [{
             test: /\.js$/,
-            exclude: /node_modules/,
+            loader: 'babel-loader'
+        }, {
+            test: /\.ts$/,
             loader: 'babel-loader'
         }]
     },
@@ -20,7 +27,7 @@ module.exports = {
         alias: {
             '@': resolve('src')
         },
-        extensions: ['.js', '.ts', '.json'],
+        extensions: ['.ts', '.js'],
         modules: ["node_modules"],
     },
     plugins: [

@@ -1,32 +1,45 @@
-export interface Api {
-	apiName: string,
-	method: string,
-	url: string
-	baseURL?: string
-}
+declare namespace CoverHTTP {
 
-export interface Success { (data?: any, resolve?: any, reject?: any): void }
-export interface Fail { (data?: any): void }
-export interface genConfigFn { (): any }
-export interface requestInterceptors { (genConfigFn: genConfigFn): void }
-export interface setSuccess { (SuccessFn: Success): void }
-export interface setFail { (failFn: Fail): void }
-export interface addApiList { (apiList: Api[]): void }
-export interface addApi { (api: Api): void }
-export interface findApi { (apiName?: string): Api }
-export interface request { (apiName?: string, data?: any, param?: any): any }
-export interface downloadFile { (apiName?: string, data?: any, param?: any): any }
+	interface HttpOptions {
+		baseURL?: string,
+		debug?: boolean,
+		timeout?: number,
+	}
+	type Method =
+		| 'get' | 'GET'
+		| 'delete' | 'DELETE'
+		| 'head' | 'HEAD'
+		| 'options' | 'OPTIONS'
+		| 'post' | 'POST'
+		| 'put' | 'PUT'
+		| 'patch' | 'PATCH'
+		| 'link' | 'LINK'
+		| 'unlink' | 'UNLINK';
 
-export interface Http {
-	_apiList: Api[];
-	_success: undefined | Success;
-	_fail: undefined | Fail;
-	requestInterceptors: requestInterceptors;
-	setSuccess: setSuccess;
-	setFail: setFail;
-	addApiList: addApiList;
-	addApi: addApi;
-	findApi: findApi;
-	request: request;
-	downloadFile: downloadFile;
+	interface Api {
+		apiName: string,
+		method: Method | undefined,
+		url: string,
+		params?: string[],
+		meta?: any;
+	}
+
+	interface ApiMap {
+		[prop: string]: Api
+	}
+
+	interface HttpOptions {
+		baseURL?: string,
+		debug?: boolean,
+		timeout?: number,
+	}
+
+	declare function setBaseURL(url: string): void
+	declare function setHeaders(key: string, value: string): any
+	declare function removeHeaders(key: string): any
+	declare function addApiList(apiList: Api[]): void
+	declare function addApi(api: Api): void
+	declare function getApi(apiName: string): Api | undefined
+	declare function addParamToUrl(api: CoverHTTP.Api, paramsData: string[]): Api
+	declare function request(apiName: string, data: any, param: string[] | undefined): Promise<any>
 }
