@@ -1,36 +1,94 @@
-/// <reference path="./http.d.ts" />
-/// <reference path="./api.d.ts" />
-
-import Vue from 'vue'
 import type { AxiosInstance } from 'axios'
-export * from './api'
-module 'vue/types/vue' {
-	interface Vue {
-		$http: CoreHTTP.CoverHTTP,
-	}
+
+export interface HttpOptions {
+	baseURL?: string,
+	debug?: boolean,
+	timeout?: number,
+}
+export type Method =
+	| 'get' | 'GET'
+	| 'delete' | 'DELETE'
+
+	| 'head' | 'HEAD'
+	| 'options' | 'OPTIONS'
+	| 'post' | 'POST'
+	| 'put' | 'PUT'
+	| 'patch' | 'PATCH'
+	| 'link' | 'LINK'
+	| 'unlink' | 'UNLINK';
+
+export interface Api {
+	apiName: string,
+	method: Method | undefined,
+	url: string,
+	params?: string[],
+	meta?: any;
 }
 
+export interface ApiMap {
+	[prop: string]: Api
+}
 
-export as namespace CoverHTTP;
-export = CoverHTTP;
+export interface HttpOptions {
+	baseURL?: string,
+	debug?: boolean,
+	timeout?: number,
+}
 
-declare class CoverHTTP {
-	constructor(someParam?: CoverHTTP.HttpOptions);
+export interface SetBaseURL {
+	(url: string): void
+}
+export interface SetHeaders {
+	(key: string, value: string): any
+}
+export interface RemoveHeaders {
+	(key: string): any
+}
+export interface AddApiList {
+	(apiList: Api[]): void
+}
+export interface AddApi {
+	(api: Api): void
+}
+export interface GetApi {
+	(apiName: string): Api | undefined
+}
+export interface AddParamToUrl {
+	(api: Api, paramsData: string[]): Api
+}
+export interface Request {
+	(apiName: string, data: any, param: string[] | undefined): Promise<any>
+}
+
+// export interface genApi {
+// 	(apiName: string, url: string, method: Method | undefined, meta?: any): Api
+// }
+
+export declare const genApi = (apiName: string, url: string, method: Method | undefined, meta?: any) => Api
+
+export interface BeforeRequestFn {
+	(api: Api): boolean
+}
+
+declare class {
+	constructor(someParam?: HttpOptions);
 
 	private baseURL: string
 	private headers: any
-	private apiMap: CoverHTTP.ApiMap//接口列表
+	private apiMap: ApiMap//接口列表
 	private instance: AxiosInstance
+	private beforeRequestFn: BeforeRequestFn
 	interceptors: any
-
-	setBaseURL: CoverHTTP.setBaseURL
-	setHeaders: CoverHTTP.setHeaders
-	removeHeaders: CoverHTTP.removeHeaders
-	addApiList: CoverHTTP.addApiList
-	addApi: CoverHTTP.addApi
-	getApi: CoverHTTP.getApi
-	addParamToUrl: CoverHTTP.addParamToUrl
-	request: CoverHTTP.request
-	genApi: CoverHTTP.genApi
+	beforeRequest: (fn: BeforeRequestFn) => void
+	setBaseURL: SetBaseURL
+	setHeaders: SetHeaders
+	removeHeaders: RemoveHeaders
+	addApiList: AddApiList
+	addApi: AddApi
+	getApi: GetApi
+	addParamToUrl: AddParamToUrl
+	request: Request
 }
 
+
+export default CoverHTTP

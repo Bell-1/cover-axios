@@ -1,16 +1,18 @@
 import axios, { AxiosInstance } from 'axios'
+import type { Api, ApiMap, HttpOptions, BeforeRequestFn } from '../../types'
 
 let headers = localStorage.getItem('requestHeadersCache');
 
 export default class CoverHTTP {
 	private baseURL: string;
-	private apiMap: CoverHTTP.ApiMap = {};//接口列表
+	private apiMap: ApiMap = {};//接口列表
 	private instance: AxiosInstance;
 	private headers: any;
 
+	beforeRequestFn: BeforeRequestFn
 	interceptors: any;
 
-	constructor(opts?: CoverHTTP.HttpOptions) {
+	constructor(opts?: HttpOptions) {
 
 		this.baseURL = '';
 		this.apiMap = {}
@@ -19,6 +21,7 @@ export default class CoverHTTP {
 		const instance = this.instance = axios.create();  // 初始化
 		instance.defaults.timeout = opts?.timeout || 2500;
 		this.interceptors = instance.interceptors;
+		this.beforeRequestFn = (api: Api) => true;
 
 		if (opts?.baseURL) {
 			this.setBaseURL(opts.baseURL)
@@ -52,7 +55,7 @@ export default class CoverHTTP {
 	 * 批量添加接口定义
 	 * @param apiList 
 	 */
-	addApiList(apiList: CoverHTTP.Api[]): void {
+	addApiList(apiList: Api[]): void {
 		for (let v of apiList) {
 			this.addApi(v)
 		}
@@ -62,7 +65,7 @@ export default class CoverHTTP {
 	 * 添加单个接口
 	 * @param api 
 	 */
-	addApi(api: CoverHTTP.Api): void {
+	addApi(api: Api): void {
 		this.apiMap[api.apiName] = api;
 	}
 
@@ -70,12 +73,12 @@ export default class CoverHTTP {
 	 * 获取api
 	 * @param {String} apiName
 	 */
-	getApi(apiName: string): CoverHTTP.Api | undefined {
+	getApi(apiName: string): Api | undefined {
 		return this.apiMap[apiName] ? this.apiMap[apiName] : undefined;
 	}
 
 	// 添加所有 [:param] 参数数据进url 中
-	addParamToUrl(api: CoverHTTP.Api, paramsData: string[]): CoverHTTP.Api {
+	addParamToUrl(api: Api, paramsData: string[]): Api {
 		const apiData = { ...api };
 		const { params, url } = apiData;
 
@@ -92,6 +95,11 @@ export default class CoverHTTP {
 		return apiData;
 	}
 
+	// 请求验证验证
+	beforeRequest(fn: BeforeRequestFn) {
+		this.beforeRequestFn = fn;
+	}
+
 	/**
 	 * 请求查询
 	 * @param {String} apiName 接口名称定义在apiList
@@ -104,6 +112,9 @@ export default class CoverHTTP {
 
 		const { url, method } = this.addParamToUrl(api, param);
 
+		const pass = this.beforeRequestFn(api);
+		if (!pass) return Promise.reject(`Request validation was't passed`);
+
 		return this.instance.request({
 			url,
 			method,
@@ -114,5 +125,6 @@ export default class CoverHTTP {
 			},
 		});
 	}
-
 }
+
+const http = new CoverHTTP();

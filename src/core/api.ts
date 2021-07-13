@@ -1,3 +1,4 @@
+import type { Api, Method } from '../../types'
 /**
  * 添加api接口
  * @param apiName 	接口名称
@@ -5,8 +6,8 @@
  * @param method 	请求方式
  * @param meta		可存储任意数据供开发时使用
  */
-export function genApi(apiName: string, url: string, method: CoverHTTP.Method | undefined, meta?: any): CoverHTTP.Api {
-	const api: CoverHTTP.Api = {
+export function genApi(apiName: string, url: string, method: Method | undefined, meta?: any): Api {
+	const api: Api = {
 		apiName,
 		method,
 		url,

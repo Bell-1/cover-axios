@@ -1,13 +1,16 @@
 import type { Store } from 'vuex'
-import HTTP from 'cover-axios'
+import HTTP, { Api } from 'cover-axios'
 import ApiList from '@/request/api'
 import { Message } from 'element-ui'
+import { checkPermission } from '@/utils/permission'
 
 const coverCodes: Set<number> = new Set([]); // 用来覆盖错误弹框的错误码
 
 // vue.use
 function install(Vue: any, opts: { store?: Store<any> }) {
 	const http = Vue.prototype.$http = new HTTP();
+
+	http.beforeRequest(beforeRequest);
 
 	if (process.env.NODE_ENV === 'development') {
 		// 本地代理指向配置 根据自己的环境配置
@@ -31,6 +34,14 @@ function install(Vue: any, opts: { store?: Store<any> }) {
 		add: addCoverCode,
 		remove: removeCoverCode
 	}
+}
+
+function beforeRequest(api: Api): boolean {
+	if (api.meta && api.meta.permission) {
+		const pass = checkPermission(api.meta.permission);
+		return pass
+	}
+	return true
 }
 
 // 添加覆盖弹框 错误码
