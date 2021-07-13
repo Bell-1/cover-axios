@@ -80,7 +80,7 @@ export default class CoverHTTP {
 	// 添加所有 [:param] 参数数据进url 中
 	addParamToUrl(api: Api, paramsData: string[]): Api {
 		const apiData = { ...api };
-		const { params, url } = apiData;
+		const { params } = apiData;
 
 		if (!params || !paramsData) return apiData;
 
@@ -89,7 +89,7 @@ export default class CoverHTTP {
 		}
 
 		for (var k in params) {
-			apiData.url = url.replace(params[k], paramsData[k])
+			apiData.url = apiData.url.replace(params[k], paramsData[k])
 		}
 
 		return apiData;
