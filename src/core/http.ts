@@ -7,7 +7,7 @@ export default class CoverHTTP {
 	private baseURL: string;
 	private apiMap: ApiMap = {};//接口列表
 	private instance: AxiosInstance;
-	private headers: any;
+	private _headers: any;
 
 	beforeRequestFn: BeforeRequestFn
 	interceptors: any;
@@ -16,7 +16,7 @@ export default class CoverHTTP {
 
 		this.baseURL = '';
 		this.apiMap = {}
-		this.headers = headers ? JSON.parse(headers) : {}; //headers
+		this._headers = headers ? JSON.parse(headers) : {}; //headers
 
 		const instance = this.instance = axios.create();  // 初始化
 		instance.defaults.timeout = opts?.timeout || 2500;
@@ -35,20 +35,24 @@ export default class CoverHTTP {
 		this.instance.defaults.baseURL = this.baseURL;
 	}
 
+	get headers() {
+		return this._headers;
+	};
+
 	// 设置请求头
 	setHeaders(key: string, value: string): any {
 		if (!key || !value) return;
-		this.headers[key] = value;
-		localStorage.setItem('requestHeadersCache', JSON.stringify({ ...this.headers }));
-		return this.headers;
+		this._headers[key] = value;
+		localStorage.setItem('requestHeadersCache', JSON.stringify({ ...this._headers }));
+		return this._headers;
 	}
 
 	// 移除请求头
 	removeHeaders(key: string): void {
 		if (!key) return;
-		delete this.headers[key];
-		localStorage.setItem('requestHeadersCache', JSON.stringify(this.headers));
-		return this.headers;
+		delete this._headers[key];
+		localStorage.setItem('requestHeadersCache', JSON.stringify(this._headers));
+		return this._headers;
 	}
 
 	/**
@@ -121,7 +125,7 @@ export default class CoverHTTP {
 			data,
 			params: api.method?.toUpperCase() === 'GET' ? data : undefined,
 			headers: {
-				...this.headers,
+				...this._headers,
 			},
 		});
 	}

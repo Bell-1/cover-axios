@@ -1,6 +1,6 @@
 {
     "name": "cover-axios",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "description": "使用TS语法，基于axios的二次封装",
     "main": "src/core/index.ts",
     "scripts": {

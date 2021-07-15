@@ -70,15 +70,16 @@ export interface BeforeRequestFn {
 	(api: Api): boolean
 }
 
-declare class {
+declare class CoverHTTP {
 	constructor(someParam?: HttpOptions);
 
 	private baseURL: string
-	private headers: any
+	private _headers: any
 	private apiMap: ApiMap//接口列表
 	private instance: AxiosInstance
 	private beforeRequestFn: BeforeRequestFn
-	interceptors: any
+	public interceptors: any
+	public headers: any
 	beforeRequest: (fn: BeforeRequestFn) => void
 	setBaseURL: SetBaseURL
 	setHeaders: SetHeaders
