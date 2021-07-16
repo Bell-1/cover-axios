@@ -14,7 +14,7 @@ export default class CoverHTTP {
 
 	constructor(opts?: HttpOptions) {
 
-		this.baseURL = '';
+		this.baseURL = '/';
 		this.apiMap = {}
 		this._headers = headers ? JSON.parse(headers) : {}; //headers
 
