@@ -1,3 +1,4 @@
+import { cleanPath } from '@/utils/path'
 import type { Api, Method } from '../../types'
 /**
  * 添加api接口
@@ -10,7 +11,7 @@ export function genApi(apiName: string, url: string, method: Method | undefined,
 	const api: Api = {
 		apiName,
 		method,
-		url,
+		url: cleanPath('/' + url),
 	}
 
 	const params = url.match(/:\w+/g); // 查找URL中的 [:param] 

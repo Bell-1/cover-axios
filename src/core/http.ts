@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios'
+import { cleanPath, addParamToUrl } from '@/utils/path'
 import type { Api, ApiMap, HttpOptions, BeforeRequestFn } from '../../types'
 
 let headers = localStorage.getItem('requestHeadersCache');
@@ -78,26 +79,10 @@ export default class CoverHTTP {
 	 * @param {String} apiName
 	 */
 	getApi(apiName: string): Api | undefined {
-		return this.apiMap[apiName] ? this.apiMap[apiName] : undefined;
+		return this.apiMap[apiName];
 	}
 
-	// 添加所有 [:param] 参数数据进url 中
-	addParamToUrl(api: Api, paramsData: string[]): Api {
-		const apiData = { ...api };
-		const { params } = apiData;
 
-		if (!params || !paramsData) return apiData;
-
-		if (paramsData.length !== params.length) {
-			throw new Error(`Bad request parameter. Please check it`);
-		}
-
-		for (var k in params) {
-			apiData.url = apiData.url.replace(params[k], paramsData[k])
-		}
-
-		return apiData;
-	}
 
 	// 请求验证验证
 	beforeRequest(fn: BeforeRequestFn) {
@@ -114,13 +99,13 @@ export default class CoverHTTP {
 		let api = this.getApi(apiName);
 		if (!api) return Promise.reject(new Error(`"(${apiName}": The API does not exist`));
 
-		const { url, method } = this.addParamToUrl(api, param);
+		const { url, method } = addParamToUrl(api, param);
 
 		const pass = this.beforeRequestFn(api);
 		if (!pass) return Promise.reject(`Request validation was't passed`);
 
 		return this.instance.request({
-			url,
+			url: cleanPath(url),
 			method,
 			data,
 			params: api.method?.toUpperCase() === 'GET' ? data : undefined,
