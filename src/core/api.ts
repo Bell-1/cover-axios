@@ -1,4 +1,4 @@
-import { cleanPath } from '@/utils/path'
+import { cleanPath } from '../utils/path'
 import type { Api, Method } from '../../types'
 /**
  * 添加api接口

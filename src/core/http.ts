@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios'
-import { cleanPath, addParamToUrl } from '@/utils/path'
+import { cleanPath, addParamToUrl } from '../utils/path'
 import type { Api, ApiMap, HttpOptions, BeforeRequestFn } from '../../types'
 
 let headers = localStorage.getItem('requestHeadersCache');
