@@ -1,11 +1,10 @@
-import type { Api } from '../../types'
 
-export function cleanPath(path: string): string {
+export function cleanPath(path) {
 	return path.replace(/\/\//g, '/')
 }
 
 // 添加所有 [:param] 参数数据进url 中
-export function addParamToUrl(api: Api, paramsData: string[]): Api {
+export function addParamToUrl(api, paramsData) {
 	const apiData = { ...api };
 	const { params } = apiData;
 
