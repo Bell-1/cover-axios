@@ -1,6 +1,6 @@
 {
     "name": "cover-axios",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "description": "基于axios的二次封装, 支持TS",
     "main": "index.js",
     "scripts": {
