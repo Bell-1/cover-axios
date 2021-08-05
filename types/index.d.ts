@@ -57,7 +57,7 @@ export interface AddParamToUrl {
 	(api: Api, paramsData: string[]): Api
 }
 export interface Request {
-	(apiName: string, data: any, param: string[] | undefined): Promise<any>
+	(apiName: string, data?: any, param?: string[] | undefined): Promise<any>
 }
 
 // export interface genApi {
