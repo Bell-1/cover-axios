@@ -76,7 +76,7 @@ export const getApi = (apiName: string) => {
 	return apiMap[apiName]
 }
 
-export const request = (apiName = '', data = {}, param = []) => {
+export const request = (apiName: string, data: any = {}, param: string[] = [], isDownload?: boolean) => {
 	let api = getApi(apiName)
 	if (!api) return Promise.reject(new Error(`"(${apiName}": The API does not exist`))
 
@@ -84,15 +84,21 @@ export const request = (apiName = '', data = {}, param = []) => {
 
 	const pass = beforeRequestFn ? beforeRequestFn(api) : true
 
-	if (pass === false) return Promise.reject(`Request validation was't passed`)
+	if (!pass) return Promise.reject(`Request validation was't passed`)
 
-	return instance.request({
+	const options: Record<string, any> = {
 		url: cleanPath(url),
 		method,
 		headers,
 		data,
 		params: api.method && api.method === 'GET' ? data : undefined,
-	})
+	}
+	if (api.meta?.download === true || isDownload === true) {
+		// 表明返回服务器返回的数据类型 是blob文件
+		options.responseType = 'blob'
+	}
+
+	return instance.request(options)
 }
 
 const Http = {

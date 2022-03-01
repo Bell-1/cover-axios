@@ -49,11 +49,13 @@ export function getApi(apiName: string): Api | undefined
 
 export function addParamToUrl(api: Api, paramsData: string[]): Api
 
-export function request(apiName: string, data?: any, param?: string[] | undefined): Promise<any>
-
-export function genApi(apiName: string, url: string, method: Method | undefined, meta?: any): Api
+export function genApi(apiName: string, url: string, method?: Method, meta?: any): Api
 
 export function beforeRequestFn(api: Api): boolean
+
+export function request<T>(apiName: string, data: any, param?: string[], isDownload?: boolean): Promise<T>
+
+export function saveFile(blobData: Blob, fileType: string, fileName?: string): void
 
 declare const _default: {
 	setOptions: typeof setOptions
