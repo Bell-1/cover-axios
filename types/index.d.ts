@@ -1,95 +1,75 @@
-import type { AxiosInstance } from 'axios'
+import type { AxiosInterceptorManager, AxiosRequestConfig, AxiosResponse } from 'axios'
 
-export interface HttpOptions {
-	baseURL?: string,
-	debug?: boolean,
-	timeout?: number,
-}
 export type Method =
-	| 'get' | 'GET'
-	| 'delete' | 'DELETE'
+	| 'get'
+	| 'GET'
+	| 'delete'
+	| 'DELETE'
+	| 'head'
+	| 'HEAD'
+	| 'options'
+	| 'OPTIONS'
+	| 'post'
+	| 'POST'
+	| 'put'
+	| 'PUT'
+	| 'patch'
+	| 'PATCH'
+	| 'link'
+	| 'LINK'
+	| 'unlink'
+	| 'UNLINK'
 
-	| 'head' | 'HEAD'
-	| 'options' | 'OPTIONS'
-	| 'post' | 'POST'
-	| 'put' | 'PUT'
-	| 'patch' | 'PATCH'
-	| 'link' | 'LINK'
-	| 'unlink' | 'UNLINK';
-
-export interface Api {
-	apiName: string,
-	method: Method | undefined,
-	url: string,
-	params?: string[],
-	meta?: any;
-}
-
-export interface ApiMap {
-	[prop: string]: Api
-}
-
-export interface HttpOptions {
-	baseURL?: string,
-	debug?: boolean,
-	timeout?: number,
+export type Api = {
+	apiName: string
+	method: Method | undefined
+	url: string
+	params?: string[]
+	meta?: any
 }
 
-export interface SetBaseURL {
-	(url: string): void
+export type HttpOptions = {
+	baseURL?: string
+	debug?: boolean
+	timeout?: number
 }
-export interface SetHeaders {
-	(key: string, value: string): any
-}
-export interface RemoveHeaders {
-	(key: string): any
-}
-export interface AddApiList {
-	(apiList: Api[]): void
-}
-export interface AddApi {
-	(api: Api): void
-}
-export interface GetApi {
-	(apiName: string): Api | undefined
-}
-export interface AddParamToUrl {
-	(api: Api, paramsData: string[]): Api
-}
-export interface Request {
-	(apiName: string, data?: any, param?: string[] | undefined): Promise<any>
+export function setOptions(opts: Partial<HttpOptions> = {}): HttpOptions
+
+export function getHeaders(key: string, value: string): any
+
+export function setHeaders(key: string, value: string): any
+
+export function removeHeaders(key: string): any
+
+export function addApiList(apiList: Api[]): void
+
+export function addApi(api: Api): void
+
+export function getApi(apiName: string): Api | undefined
+
+export function addParamToUrl(api: Api, paramsData: string[]): Api
+
+export function request(apiName: string, data?: any, param?: string[] | undefined): Promise<any>
+
+export function genApi(apiName: string, url: string, method: Method | undefined, meta?: any): Api
+
+export function beforeRequestFn(api: Api): boolean
+
+declare const _default: {
+	setOptions: typeof setOptions
+	setBeforeRequest: (fn: typeof setOptions) => HttpOptions
+	setHeaders: typeof setHeaders
+	getHeaders: typeof getHeaders
+	removeHeaders: typeof removeHeaders
+	getApi: typeof getApi
+	addApi: typeof addApi
+	addApiList: typeof addApiList
+	request: typeof request
+	interceptors: {
+		request: AxiosInterceptorManager<AxiosRequestConfig>
+		response: AxiosInterceptorManager<AxiosResponse>
+	},
+	version: string,
 }
 
-// export interface genApi {
-// 	(apiName: string, url: string, method: Method | undefined, meta?: any): Api
-// }
-
-export declare const genApi = (apiName: string, url: string, method: Method | undefined, meta?: any) => Api
-
-export interface BeforeRequestFn {
-	(api: Api): boolean
-}
-
-declare class CoverHTTP {
-	constructor(someParam?: HttpOptions);
-
-	private baseURL: string
-	private _headers: any
-	private apiMap: ApiMap//接口列表
-	private instance: AxiosInstance
-	private beforeRequestFn: BeforeRequestFn
-	public interceptors: any
-	public headers: any
-	beforeRequest: (fn: BeforeRequestFn) => void
-	setBaseURL: SetBaseURL
-	setHeaders: SetHeaders
-	removeHeaders: RemoveHeaders
-	addApiList: AddApiList
-	addApi: AddApi
-	getApi: GetApi
-	addParamToUrl: AddParamToUrl
-	request: Request
-}
-
-
-export default CoverHTTP
+export default _default
