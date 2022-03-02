@@ -8,12 +8,12 @@ function generateConfig(name) {
 	const compress = name.indexOf('min') > -1
 	const isES = name.indexOf('.es') > -1
 	const config = {
-		entry: resolve('src/index.ts'),
+		entry: resolve('../packages/cover-axios/index.ts'),
 		experiments: {
 			outputModule: isES,
 		},
 		output: {
-			path: resolve('lib'),
+			path: resolve('../lib'),
 			filename: name + '.js',
 			library: {
 				name: isES ? undefined : 'CoverAxios',
@@ -38,7 +38,7 @@ function generateConfig(name) {
 		externals: {
 			axios: 'axios',
 		},
-		// plugins: [new ProgressBarPlugin()],
+		plugins: [new ProgressBarPlugin()],
 	}
 
 	isFirst = false

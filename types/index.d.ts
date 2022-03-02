@@ -55,7 +55,7 @@ export function beforeRequestFn(api: Api): boolean
 
 export function request<T>(apiName: string, data: any, param?: string[], isDownload?: boolean): Promise<T>
 
-export function saveFile(blobData: Blob, fileType: string, fileName?: string): void
+export function saveFile(blobData: any, fileType: string, fileName?: string): void
 
 declare const _default: {
 	setOptions: typeof setOptions

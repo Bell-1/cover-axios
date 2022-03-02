@@ -1,7 +1,6 @@
-import { HttpOptions, Api } from '../types'
+import { HttpOptions, Api } from '../../types'
 import axios from 'axios'
-import { cleanPath, addParamToUrl } from './utils/path'
-import { version } from './version'
+import { cleanPath, addParamToUrl } from '../utils/path'
 
 const headers = ((): Record<string, string> => {
 	const _h = localStorage.getItem('requestHeadersCache')
@@ -112,7 +111,6 @@ const Http = {
 	addApiList,
 	request,
 	interceptors,
-	version,
 }
 
 export default Http

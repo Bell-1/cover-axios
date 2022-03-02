@@ -4,7 +4,7 @@
  * @param fileType
  * @param fileName
  */
-export const saveFile = (blobData: Blob, fileType: string, fileName: string = 'file_' + +new Date()) => {
+export const saveFile = (blobData: any, fileType: string, fileName: string = 'file_' + +new Date()) => {
 	let blob = new Blob([blobData], { type: fileType })
 	var link = document.createElement('a')
 	link.href = window.URL.createObjectURL(blob)

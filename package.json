@@ -1,6 +1,6 @@
 {
     "name": "cover-axios",
-    "version": "0.3.1",
+    "version": "0.3.3",
     "description": "基于axios的二次封装, 支持TS",
     "main": "./lib/cover-axios.js",
     "exports": {
@@ -15,7 +15,7 @@
 		"preinstall": "npx only-allow pnpm",
         "prepublish": "pnpm run build",
         "genVersion": "node ./build/version.js",
-        "build": "pnpm run genVersion && webpack --config ./webpack.config.js"
+        "build": "pnpm run genVersion && webpack --config ./build/webpack.config.js"
     },
     "typings": "types/index.d.ts",
     "author": "Bell",

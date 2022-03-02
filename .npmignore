@@ -22,6 +22,6 @@ pnpm-debug.log*
 *.sw?
 *.rar
 
-src/
+packages/
 example/
 build/
