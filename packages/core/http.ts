@@ -63,7 +63,7 @@ export const apiMap: Record<string, Api> = {}
  * 添加单个接口
  * @param api
  */
-export const addApi = (api: Api) => {
+export function addApi (api: Api) {
 	apiMap[api.apiName] = api
 }
 
@@ -71,11 +71,11 @@ export const addApi = (api: Api) => {
  * 获取api
  * @param {String} apiName
  */
-export const getApi = (apiName: string) => {
+export function getApi (apiName: string) {
 	return apiMap[apiName]
 }
 
-export const request = (apiName: string, data: any = {}, param: string[] = [], isDownload?: boolean) => {
+export function request<R = any> (apiName: string, data: any = {}, param: string[] = [], isDownload?: boolean){
 	let api = getApi(apiName)
 	if (!api) return Promise.reject(new Error(`"(${apiName}": The API does not exist`))
 
@@ -97,7 +97,7 @@ export const request = (apiName: string, data: any = {}, param: string[] = [], i
 		options.responseType = 'blob'
 	}
 
-	return instance.request(options)
+	return instance.request<R , R>(options)
 }
 
 const Http = {
