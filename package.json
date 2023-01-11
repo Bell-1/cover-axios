@@ -1,12 +1,12 @@
 {
     "name": "cover-axios",
-    "version": "0.3.9",
+    "version": "0.3.10",
     "description": "基于axios的二次封装, 支持TS",
     "main": "./lib/cover-axios.js",
     "exports": {
         ".": {
             "import": "./lib/cover-axios.es.js",
-            "require": "./lib/cover-axios.umd.js"
+            "require": "./lib/cover-axios.js"
         },
         "./style": "./lib/style.css",
         "./*": "./*"
