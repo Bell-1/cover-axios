@@ -1,4 +1,4 @@
-import { Method, Api } from '../../types'
+import { Method, Api } from '../token'
 import { cleanPath } from './path'
 
 /**
@@ -13,7 +13,6 @@ export function genApi(apiName: string, url: string, method: Method = 'GET', met
 		apiName,
 		method,
 		url: cleanPath('/' + url),
-		params: url.match(/:\w+/g) || undefined, // 查找URL中的 [:param]
 		meta,
 	}
 

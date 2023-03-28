@@ -1,39 +1,24 @@
 {
-    "compilerOptions": {
-        "target": "esnext",
-        "module": "esnext",
-        "strict": true,
-        "jsx": "preserve",
-        "importHelpers": true,
-        "moduleResolution": "node",
-        "experimentalDecorators": true,
-        "skipLibCheck": true,
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "sourceMap": true,
-        "baseUrl": ".",
-        "types": [
-            "./types",
-        ],
-        "paths": {
-            "@/*": [
-                "packages/*"
-            ]
-        },
-        "lib": [
-            "esnext",
-            "dom",
-            "dom.iterable",
-            "scripthost"
-        ]
-    },
-    "include": [
-        "packages/**/*.ts",
-        "packages/**/*.tsx",
-        "packages/**/*.vue", "index.ts",
-    ],
-    "exclude": [
-        "node_modules",
-        "dist",
-    ]
+	"compilerOptions": {
+		"baseUrl": ".",
+		"allowJs": true,
+		"target": "ES6",
+		"module": "ESNext",
+		"strict": true,
+		"noImplicitAny": false,
+		"noEmitHelpers": true,
+		"importHelpers": true,
+		"declaration": true,
+		"declarationDir": "types",
+		"outDir": "lib",
+		"rootDir": "./",
+		"sourceMap": false,
+		"emitDeclarationOnly": false,
+		"moduleResolution": "node",
+		"lib": ["ES2021", "DOM", "DOM.Iterable"],
+		"types": ["node"],
+		"allowSyntheticDefaultImports": true
+	},
+	"include": ["packages/**/*"],
+	"exclude": ["node_modules", "lib"]
 }
